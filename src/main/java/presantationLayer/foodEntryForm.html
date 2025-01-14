@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Shto Hyrje Ushqimi</title>
+    <link rel="stylesheet" href="/css/styles.css">
+</head>
+<body>
+
+<h1>Shto Hyrje Ushqimi</h1>
+
+
+<div th:if="${message != null}">
+    <p style="color: green;" th:text="${message}"></p>
+</div>
+
+<form action="/food-entry" method="post">
+    <label for="foodName">Emri i Ushqimit:</label>
+    <input type="text" id="foodName" name="foodName" required><br><br>
+
+    <label for="calorieValue">Vlera Kalorike:</label>
+    <input type="number" id="calorieValue" name="calorieValue" required><br><br>
+
+    <button type="submit">Shto</button>
+</form>
+
+</body>
+</html>
