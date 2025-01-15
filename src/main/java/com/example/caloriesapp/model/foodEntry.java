@@ -7,6 +7,7 @@ import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class foodEntry {
@@ -19,13 +20,16 @@ public class foodEntry {
     private double calorieValue;
     private LocalDateTime dateTime;
 
-    public foodEntry() {
+    private LocalDate date;
+
+    public foodEntry(String foodName, double calorieValue, LocalDateTime now) {
     }
 
-    public foodEntry(String foodName, double calorieValue, LocalDateTime dateTime) {
+    public foodEntry(String foodName, double calorieValue, LocalDateTime dateTime , LocalDate date) {
         this.foodName = foodName;
         this.calorieValue = calorieValue;
         this.dateTime = dateTime;
+        this.date = date;
     }
 
     // Getter dhe Setter
@@ -59,5 +63,13 @@ public class foodEntry {
 
     public void setDateTime(LocalDateTime dateTime) {
         this.dateTime = dateTime;
+    }
+
+    public LocalDate getDate() {
+        return date;
+    }
+
+    public void setDate(LocalDate date) {
+        this.date = date;
     }
 }
