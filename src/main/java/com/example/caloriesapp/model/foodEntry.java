@@ -1,7 +1,5 @@
 package com.example.caloriesapp.model;
 
-
-
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -22,17 +20,23 @@ public class foodEntry {
 
     private LocalDate date;
 
+    // Shto atributin 'price'
+    private double price;
+
+    // Konstruktorët
     public foodEntry(String foodName, double calorieValue, LocalDateTime now) {
+        // Konstruktor bosh ose specifik për raste të tjera
     }
 
-    public foodEntry(String foodName, double calorieValue, LocalDateTime dateTime , LocalDate date) {
+    public foodEntry(String foodName, double calorieValue, LocalDateTime dateTime, LocalDate date, double price) {
         this.foodName = foodName;
         this.calorieValue = calorieValue;
         this.dateTime = dateTime;
         this.date = date;
+        this.price = price;
     }
 
-    // Getter dhe Setter
+    // Getter dhe Setter për atributin 'id'
     public Long getId() {
         return id;
     }
@@ -41,6 +45,7 @@ public class foodEntry {
         this.id = id;
     }
 
+    // Getter dhe Setter për atributin 'foodName'
     public String getFoodName() {
         return foodName;
     }
@@ -49,6 +54,7 @@ public class foodEntry {
         this.foodName = foodName;
     }
 
+    // Getter dhe Setter për atributin 'calorieValue'
     public double getCalorieValue() {
         return calorieValue;
     }
@@ -57,6 +63,7 @@ public class foodEntry {
         this.calorieValue = calorieValue;
     }
 
+    // Getter dhe Setter për atributin 'dateTime'
     public LocalDateTime getDateTime() {
         return dateTime;
     }
@@ -65,11 +72,21 @@ public class foodEntry {
         this.dateTime = dateTime;
     }
 
+    // Getter dhe Setter për atributin 'date'
     public LocalDate getDate() {
         return date;
     }
 
     public void setDate(LocalDate date) {
         this.date = date;
+    }
+
+    // Getter dhe Setter për atributin 'price'
+    public double getPrice() {
+        return price;
+    }
+
+    public void setPrice(double price) {
+        this.price = price;
     }
 }

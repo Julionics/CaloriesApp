@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Raporti Javor</title>
+</head>
+<body>
+    <h1>Raporti Javor</h1>
+
+    <h2>Kaloritë Ditore</h2>
+    <ul>
+        <li th:each="calories : ${totalCaloriesPerDay}" th:text="${calories} + ' kalori'"></li>
+    </ul>
+
+    <h2>Ditët që kaluan pragun:</h2>
+    <p th:text="${daysThresholdExceeded} + ' ditë'"></p>
+
+    <h2>Shpenzimet Totale për Javën</h2>
+    <p>€<span th:text="${totalExpenditure}"></span></p>
+
+    <a href="/food-entry">Kthehu te Forma</a>
+</body>
+</html>
