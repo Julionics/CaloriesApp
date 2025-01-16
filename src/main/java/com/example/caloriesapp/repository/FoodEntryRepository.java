@@ -34,5 +34,10 @@ public interface FoodEntryRepository extends JpaRepository<foodEntry, Long> {
     // Query për të marrë totalin e shpenzimeve për një javë
     @Query("SELECT SUM(f.price) FROM foodEntry f WHERE f.date BETWEEN :startDate AND :endDate")
     Double getTotalExpenditureForWeek(LocalDate startDate, LocalDate endDate);
+
+    // Query për të marrë regjistrimet sipas një intervali datash
+    @Query("SELECT f FROM foodEntry f WHERE f.date BETWEEN :startDate AND :endDate")
+    List<foodEntry> findByDateRange(LocalDate startDate, LocalDate endDate);
+
 }
 

@@ -53,6 +53,12 @@ public class FoodEntryService {
         // Krijo dhe kthe objektin WeeklySummary
         return new WeeklySummary(totalCaloriesPerDay, daysThresholdExceeded, totalExpenditure);
     }
+
+
+    public List<foodEntry> filterEntriesByDateRange(LocalDate startDate, LocalDate endDate) {
+        return foodEntryRepository.findByDateRange(startDate, endDate);
+    }
+
 }
 
 

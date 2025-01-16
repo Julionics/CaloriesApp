@@ -20,7 +20,6 @@ public class foodEntry {
 
     private LocalDate date;
 
-    // Shto atributin 'price'
     private double price;
 
     // Konstruktorët
@@ -34,6 +33,13 @@ public class foodEntry {
         this.dateTime = dateTime;
         this.date = date;
         this.price = price;
+    }
+
+    public foodEntry(String foodName, double calorieValue, LocalDateTime now, double price) {
+    }
+
+    public foodEntry() {
+
     }
 
     // Getter dhe Setter për atributin 'id'

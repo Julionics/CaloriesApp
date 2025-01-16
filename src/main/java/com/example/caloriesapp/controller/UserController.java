@@ -27,7 +27,7 @@ public class UserController {
         try {
             User user = userService.registerUser(name, email, password);  // Updated to use 'User' (uppercase)
             model.addAttribute("message", "User registered successfully!");
-            return "login"; // Pas regjistrimit, mund të çonim në një faqe tjetër, si për shembull faqe për login
+            return "redirect:/foodEntryForm.html";
         } catch (Exception e) {
             model.addAttribute("error", e.getMessage());
             return "sign-up";
