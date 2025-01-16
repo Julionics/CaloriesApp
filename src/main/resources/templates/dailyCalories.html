@@ -1,0 +1,14 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Kaloritë Ditore</title>
+</head>
+<body>
+    <h1>Kaloritë Ditore</h1>
+    <p>Kaloritë totale për datën <span th:text="${date}"></span> janë: 
+       <span th:text="${totalCalories}"></span> kalori.</p>
+
+    <a href="/food-entry">Kthehu te Forma</a>
+</body>
+</html>
