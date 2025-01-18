@@ -1,0 +1,41 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Raporti Javor</title>
+</head>
+<body>
+<h1>Raporti Javor</h1>
+
+<!-- Kontrollo nëse weeklySummary është i pranishëm -->
+<div th:if="${weeklySummary != null}">
+    <!-- Kaloritë ditore për javën -->
+    <h2>Kaloritë ditore:</h2>
+    <ul>
+        <li th:each="calories : ${weeklySummary.totalCaloriesPerDay}">
+            Data: <span th:text="${calories.date}"></span>,
+            Kaloritë: <span th:text="${calories.totalCalories}"></span>
+        </li>
+    </ul>
+
+    <!-- Ditët që tejkaluan pragun -->
+    <h2>Ditët që tejkaluan pragun:</h2>
+    <p th:text="'Numri i ditëve: ' + ${weeklySummary.daysThresholdExceeded}"></p>
+
+    <!-- Shpenzimet totale -->
+    <h2>Shpenzimet totale për këtë javë:</h2>
+    <p th:text="'Shpenzimet totale: €' + ${weeklySummary.totalExpenditure}"></p>
+</div>
+
+<!-- Mesazh kur weeklySummary është bosh -->
+<div th:if="${weeklySummary == null}">
+    <p>Asnjë të dhënë për raportin javor.</p>
+</div>
+
+<!-- Link për kthim -->
+<a href="/food-entry/new">Kthehu te forma kryesore</a>
+</body>
+</html>
+

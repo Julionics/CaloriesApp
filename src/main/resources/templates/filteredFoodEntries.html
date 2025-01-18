@@ -1,0 +1,38 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Hyrjet e Filtruara</title>
+</head>
+<body>
+<h1>Hyrjet Ushqimore të Filtruara</h1>
+
+<!-- Shfaqni datën e filtruar -->
+<h2>Intervali i datave:</h2>
+<p>Nga: <span th:text="${startDate}"></span> deri: <span th:text="${endDate}"></span></p>
+
+<!-- Kontrolloni nëse ka hyrje ushqimore -->
+<div th:if="${filteredEntries != null && !filteredEntries.isEmpty()}">
+    <h2>Hyrjet:</h2>
+    <ul>
+        <li th:each="entry : ${filteredEntries}">
+            Ushqimi: <span th:text="${entry.foodName}"></span>,
+            Kalori: <span th:text="${entry.calorieValue}"></span>,
+            Çmimi: €<span th:text="${entry.price}"></span>,
+            Data: <span th:text="${entry.entryDate}"></span>
+        </li>
+    </ul>
+</div>
+
+<!-- Mesazh nëse nuk ka hyrje -->
+<div th:if="${filteredEntries == null || filteredEntries.isEmpty()}">
+    <p>Asnjë hyrje nuk u gjet për intervalin e specifikuar.</p>
+</div>
+
+<!-- Link për kthim -->
+<a href="/food-entry/new">Kthehu te Forma Kryesore</a>
+</body>
+</html>
+

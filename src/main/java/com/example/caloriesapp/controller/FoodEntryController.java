@@ -19,6 +19,11 @@ public class FoodEntryController {
 
     @Autowired
     private FoodEntryService foodEntryService;
+    @GetMapping
+    public String showDefaultPage() {
+        return "foodEntryForm"; // Shfaq foodEntryForm.html si default
+    }
+
 
     @GetMapping("/new")
     public String showFoodEntryForm(Model model) {
