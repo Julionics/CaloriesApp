@@ -1,42 +1,40 @@
 package com.example.caloriesapp.model;
-
 import java.util.List;
 
+
 public class WeeklySummary {
+    private List<DailyCalories> totalCaloriesPerDay; // Kaloritë ditore për javën
+    private long daysThresholdExceeded;      // Numri i ditëve që kalojnë pragun
+    private double totalExpenditure;         // Shpenzimet totale për javën
 
-    private List<Double> totalCaloriesPerDay;
-    private Long daysThresholdExceeded;
-    private Double totalExpenditure;
-
-    // Konstruktor
-    public WeeklySummary(List<Double> totalCaloriesPerDay, Long daysThresholdExceeded, Double totalExpenditure) {
+    // Konstruktori, getter, dhe setter
+    public WeeklySummary(List<DailyCalories> totalCaloriesPerDay, long daysThresholdExceeded, double totalExpenditure) {
         this.totalCaloriesPerDay = totalCaloriesPerDay;
         this.daysThresholdExceeded = daysThresholdExceeded;
         this.totalExpenditure = totalExpenditure;
     }
 
-    // Getters dhe Setters
-    public List<Double> getTotalCaloriesPerDay() {
+    public List<DailyCalories> getTotalCaloriesPerDay() {
         return totalCaloriesPerDay;
     }
 
-    public void setTotalCaloriesPerDay(List<Double> totalCaloriesPerDay) {
+    public void setTotalCaloriesPerDay(List<DailyCalories> totalCaloriesPerDay) {
         this.totalCaloriesPerDay = totalCaloriesPerDay;
     }
 
-    public Long getDaysThresholdExceeded() {
+    public long getDaysThresholdExceeded() {
         return daysThresholdExceeded;
     }
 
-    public void setDaysThresholdExceeded(Long daysThresholdExceeded) {
+    public void setDaysThresholdExceeded(long daysThresholdExceeded) {
         this.daysThresholdExceeded = daysThresholdExceeded;
     }
 
-    public Double getTotalExpenditure() {
+    public double getTotalExpenditure() {
         return totalExpenditure;
     }
 
-    public void setTotalExpenditure(Double totalExpenditure) {
+    public void setTotalExpenditure(double totalExpenditure) {
         this.totalExpenditure = totalExpenditure;
     }
 }

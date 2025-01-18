@@ -1,7 +1,8 @@
 package com.example.caloriesapp.service;
 
-import com.example.caloriesapp.model.foodEntry;
+import com.example.caloriesapp.model.DailyCalories;
 import com.example.caloriesapp.model.WeeklySummary;
+import com.example.caloriesapp.model.FoodEntry;
 import com.example.caloriesapp.repository.FoodEntryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -9,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class FoodEntryService {
@@ -16,50 +18,66 @@ public class FoodEntryService {
     @Autowired
     private FoodEntryRepository foodEntryRepository;
 
-    // Metoda për të shtuar një hyrje të re të ushqimit
-    public foodEntry addFoodEntry(String foodName, double calorieValue, double price) {
-        foodEntry foodEntry = new foodEntry(foodName, calorieValue, LocalDateTime.now(), price);
-        return foodEntryRepository.save(foodEntry);
+    // Shto një hyrje të re të ushqimit
+    public void addFoodEntry(String foodName, double calorieValue, double price) {
+        FoodEntry foodEntry = new FoodEntry(foodName, calorieValue, price, LocalDateTime.now());
+        foodEntryRepository.save(foodEntry);
     }
 
-    // Metoda për të llogaritur shpenzimet mujore
-    public double calculateMonthlyExpenditure(int year, int month) {
-        List<foodEntry> entries = foodEntryRepository.findByYearAndMonth(year, month);
+    // Merr totalin e kalorive për sot
+    public double getTotalCaloriesForToday() {
+        LocalDate today = LocalDate.now();
+        List<FoodEntry> todayEntries = foodEntryRepository.findByEntryDate(today);
 
-        // Llogarit totalin e shpenzimeve
-        double totalExpenditure = entries.stream()
-                                         .mapToDouble(foodEntry::getPrice)
-                                         .sum();
-
-        // Kontrollo nëse shpenzimet tejkalojnë kufirin
-        if (totalExpenditure > 1000) {
-            System.out.println("WARNING: Monthly expenditure exceeded €1,000!");
-        }
-
-        return totalExpenditure;
+        return todayEntries.stream()
+                .mapToDouble(FoodEntry::getCalorieValue)
+                .sum();
     }
 
-    // Metoda për të krijuar raportin javor
+    // Merr shpenzimet mujore
+    public double getMonthlyExpenditure(int year, int month) {
+        List<FoodEntry> monthlyEntries = foodEntryRepository.findAll()
+                .stream()
+                .filter(entry -> entry.getEntryDate().getYear() == year && entry.getEntryDate().getMonthValue() == month)
+                .collect(Collectors.toList());
+
+        return monthlyEntries.stream()
+                .mapToDouble(FoodEntry::getPrice)
+                .sum();
+    }
+
+    // Merr ditët që tejkalojnë pragun e kalorive
+    public List<LocalDate> getDaysExceedingCalorieThreshold(double dailyCalorieThreshold) {
+        List<java.sql.Date> sqlDates = foodEntryRepository.findDaysExceedingCalorieThreshold(dailyCalorieThreshold);
+        return sqlDates.stream()
+                .map(java.sql.Date::toLocalDate)
+                .collect(Collectors.toList());
+    }
+
+    // Merr raportin javor
     public WeeklySummary getWeeklySummary() {
-        // Llogarit datën e fillimit dhe të fundit të javës
         LocalDate endDate = LocalDate.now();
         LocalDate startDate = endDate.minusDays(6);
 
-        // Merr të dhënat për raportin nga repository
-        List<Double> totalCaloriesPerDay = foodEntryRepository.getTotalCaloriesPerDayForWeek(startDate, endDate);
-        Long daysThresholdExceeded = foodEntryRepository.getDaysCalorieThresholdExceeded(startDate, endDate);
-        Double totalExpenditure = foodEntryRepository.getTotalExpenditureForWeek(startDate, endDate);
+        // Merr totalin e kalorive për çdo ditë të javës
+        List<DailyCalories> totalCaloriesPerDay = foodEntryRepository.getTotalCaloriesPerDayForWeek(startDate, endDate);
 
-        // Krijo dhe kthe objektin WeeklySummary
+        // Numëro ditët kur pragu i kalorive u tejkalua
+        long daysThresholdExceeded = totalCaloriesPerDay.stream()
+                .filter(dailyCalories -> dailyCalories.getTotalCalories() > 2500) // Përdor getTotalCalories
+                .count();
+
+        // Llogarit shpenzimet totale për javën
+        double totalExpenditure = foodEntryRepository.getTotalExpenditureForWeek(startDate, endDate);
+
+        // Krijo dhe kthe raportin javor
         return new WeeklySummary(totalCaloriesPerDay, daysThresholdExceeded, totalExpenditure);
     }
 
-
-    public List<foodEntry> filterEntriesByDateRange(LocalDate startDate, LocalDate endDate) {
-        return foodEntryRepository.findByDateRange(startDate, endDate);
+    // Funksionaliteti i ri: Filtrimi i hyrjeve ushqimore sipas intervalit të datave
+    public List<FoodEntry> filterFoodEntriesByDateRange(LocalDate startDate, LocalDate endDate) {
+        // Thirr repository për të marrë hyrjet e filtruara
+        return foodEntryRepository.findByEntryDateBetween(startDate, endDate);
     }
 
 }
-
-
-
