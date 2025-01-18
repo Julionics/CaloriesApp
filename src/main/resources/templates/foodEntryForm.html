@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Food Entry</title>
+</head>
+<body>
+<h1>Shto një hyrje të re ushqimi</h1>
+
+<!-- Display success, warning, or error messages -->
+<div th:if="${message}">
+    <p style="color: green;" th:text="${message}"></p>
+</div>
+<div th:if="${warning}">
+    <p style="color: orange;" th:text="${warning}"></p>
+</div>
+<div th:if="${error}">
+    <p style="color: red;" th:text="${error}"></p>
+</div>
+<div th:if="${expenditureWarning}">
+    <p style="color: red;" th:text="${expenditureWarning}"></p>
+</div>
+
+<!-- Form për shtimin e ushqimit -->
+<form action="/food-entry/new" method="post">
+    <label for="foodName">Emri i Ushqimit:</label>
+    <input type="text" id="foodName" name="foodName" required><br><br>
+
+    <label for="calorieValue">Kalori:</label>
+    <input type="number" id="calorieValue" name="calorieValue" required><br><br>
+
+    <label for="price">Çmimi (€):</label>
+    <input type="number" step="0.01" id="price" name="price" required><br><br>
+
+    <button type="submit">Shto</button>
+</form>
+
+<!-- Form për filtrimin e hyrjeve ushqimore -->
+<h2>Filtro Hyrjet Ushqimore</h2>
+<form action="/food-entry/filter" method="get">
+    <label for="startDate">Data e Fillimit:</label>
+    <input type="date" id="startDate" name="startDate" required><br><br>
+
+    <label for="endDate">Data e Mbarimit:</label>
+    <input type="date" id="endDate" name="endDate" required><br><br>
+
+    <button type="submit">Filtro</button>
+</form>
+
+<!-- Display exceeded days -->
+<h2>Ditët që tejkaluan pragun prej <span th:text="${threshold}"></span> kalorish:</h2>
+<ul>
+    <li th:each="day : ${exceededDays}" th:text="${day}"></li>
+</ul>
+
+<!-- Display monthly expenditure -->
+<h2>Shpenzimet mujore:</h2>
+<p>Shpenzimet e muajit aktual: €<span th:text="${monthlyExpenditure}"></span></p>
+<p>Pragu i shpenzimeve mujore: €<span th:text="${monthlyExpenditureThreshold}"></span></p>
+
+<!-- Links për raportin javor dhe kthim në faqen kryesore -->
+<div>
+    <a href="/food-entry/weekly-summary">Shiko Raportin Javor</a>
+</div>
+</body>
+</html>
