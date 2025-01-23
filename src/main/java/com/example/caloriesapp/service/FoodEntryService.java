@@ -1,6 +1,7 @@
 package com.example.caloriesapp.service;
 
 import com.example.caloriesapp.model.DailyCalories;
+import com.example.caloriesapp.model.User;
 import com.example.caloriesapp.model.WeeklySummary;
 import com.example.caloriesapp.model.FoodEntry;
 import com.example.caloriesapp.repository.FoodEntryRepository;
@@ -19,10 +20,11 @@ public class FoodEntryService {
     private FoodEntryRepository foodEntryRepository;
 
     // Shto një hyrje të re të ushqimit
-    public void addFoodEntry(String foodName, double calorieValue, double price) {
-        FoodEntry foodEntry = new FoodEntry(foodName, calorieValue, price, LocalDateTime.now());
+
+    public void save(FoodEntry foodEntry) {
         foodEntryRepository.save(foodEntry);
     }
+
 
     // Merr totalin e kalorive për sot
     public double getTotalCaloriesForToday() {
@@ -78,6 +80,24 @@ public class FoodEntryService {
     public List<FoodEntry> filterFoodEntriesByDateRange(LocalDate startDate, LocalDate endDate) {
         // Thirr repository për të marrë hyrjet e filtruara
         return foodEntryRepository.findByEntryDateBetween(startDate, endDate);
+
+    }
+    public long getEntryCountForDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return foodEntryRepository.countEntriesByDateRange(startDate, endDate);
+    }
+    public Double getAverageCaloriesForDateRange(LocalDateTime startDate, LocalDateTime endDate) {
+        return foodEntryRepository.findAverageCaloriesByDateRange(startDate, endDate);
+    }
+    public List<String> getUsersExceedingMonthlyLimit(int year, int month, double limit) {
+        return foodEntryRepository.findUsersExceededMonthlyLimit(year, month, limit);
     }
 
+
+    public User findUserByEmail(String email) {
+        return null;
+    }
+
+
+    public void addFoodEntry(String foodName, double calorieValue, double price) {
+    }
 }

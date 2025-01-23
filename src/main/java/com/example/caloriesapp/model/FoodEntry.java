@@ -1,5 +1,5 @@
 package com.example.caloriesapp.model;
-
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
@@ -16,22 +16,33 @@ public class FoodEntry {
 
     @Column(name = "entry_date", nullable = false, columnDefinition = "DATETIME DEFAULT CURRENT_TIMESTAMP")
     private LocalDateTime entryDate;
-
-    // Konstruktor pa parametra (kërkohet nga Hibernate)
-    public FoodEntry(String foodName, double calorieValue, LocalDateTime now, double price) {
-    }
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id", nullable = false)
+    private User user; // Lidhja me User
 
     // Konstruktor me parametra (për përdorim në aplikacion)
-    public FoodEntry(String foodName, double calorieValue, double price, LocalDateTime entryDate) {
+    public FoodEntry(String foodName, double calorieValue, double price, LocalDateTime entryDate, User user) {
         this.foodName = foodName;
         this.calorieValue = calorieValue;
         this.price = price;
         this.entryDate = entryDate;
+        this.user = user;
+    }
+
+    public FoodEntry(String foodName, double calorieValue, double price, LocalDateTime now) {
+    }
+
+    @PrePersist
+    public void onCreate() {
+        if (this.entryDate == null) {
+            this.entryDate = LocalDateTime.now();
+        }
     }
 
     public FoodEntry() {
 
     }
+
 
     // Getters dhe Setters
     public Long getId() {
@@ -73,4 +84,12 @@ public class FoodEntry {
     public void setEntryDate(LocalDateTime entryDate) {
         this.entryDate = entryDate;
     }
+
+    public User getUser() {
+        return user;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+        }
 }

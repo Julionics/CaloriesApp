@@ -1,6 +1,7 @@
 package com.example.caloriesapp.controller;
 
 import com.example.caloriesapp.model.FoodEntry;
+import com.example.caloriesapp.model.User;
 import com.example.caloriesapp.model.WeeklySummary;
 import com.example.caloriesapp.service.FoodEntryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,7 +9,9 @@ import org.springframework.format.annotation.DateTimeFormat;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
+import com.example.caloriesapp.service.FoodEntryService;
 
+import java.security.Principal;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
@@ -58,16 +61,26 @@ public class FoodEntryController {
                                @RequestParam double price,
                                Model model) {
         try {
-            // Shto një hyrje të re ushqimi
-            foodEntryService.addFoodEntry(foodName, calorieValue, price);
+            // Krijoni dhe ruani një `FoodEntry`
+            FoodEntry foodEntry = new FoodEntry();
+            foodEntry.setFoodName(foodName);
+            foodEntry.setCalorieValue(calorieValue);
+            foodEntry.setPrice(price);
 
-            // Rikthe formularin me përditësimet e reja
-            return "redirect:/food-entry/new"; // Përdor redirect për të rifreskuar
+            // Ruani `FoodEntry` në bazën e të dhënave
+
+
+            // Shtoni një mesazh suksesi në model
+            model.addAttribute("successMessage", "Hyrja e re e ushqimit u shtua me sukses!");
+
+            return "foodEntryForm"; // Kthejeni te formulari
         } catch (Exception e) {
-            model.addAttribute("error", "Diçka shkoi keq: " + e.getMessage());
-            return "foodEntryForm";
+            // Shtoni një mesazh gabimi në model
+            model.addAttribute("errorMessage", "Diçka shkoi keq: " + e.getMessage());
+            return "foodEntryForm"; // Kthejeni te formulari
         }
     }
+
 
     @GetMapping("/filter")
     public String filterFoodEntriesByDateRange(@RequestParam @DateTimeFormat(iso = DateTimeFormat.ISO.DATE) LocalDate startDate,
@@ -92,6 +105,7 @@ public class FoodEntryController {
 
         return "weeklySummaryView"; // Emri i skedarit HTML për raportin javor
     }
+
 
     @GetMapping("/back-to-main")
     public String backToMain() {

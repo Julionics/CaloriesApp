@@ -1,41 +1,144 @@
-
 <!DOCTYPE html>
 <html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Raporti Javor</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        main {
+            padding: 20px;
+            max-width: 800px;
+            margin: 20px auto;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1, h2 {
+            color: #004080;
+            text-align: center;
+        }
+
+        p, ul, li {
+            color: #333;
+            font-size: 16px;
+        }
+
+        ul {
+            list-style-type: none;
+            padding: 0;
+        }
+
+        li {
+            background-color: #f9f9f9;
+            border: 1px solid #ddd;
+            padding: 15px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+        }
+
+        .summary {
+            margin: 20px 0;
+            padding: 15px;
+            background-color: #f0f8ff;
+            border: 1px solid #d4e2f7;
+            border-radius: 5px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .summary p {
+            margin: 10px 0;
+        }
+
+        .no-data {
+            text-align: center;
+            font-size: 18px;
+            color: red;
+            margin-top: 20px;
+        }
+
+        a {
+            display: inline-block;
+            text-decoration: none;
+            color: white;
+            background-color: #004080;
+            padding: 10px 20px;
+            border-radius: 5px;
+            font-size: 16px;
+            text-align: center;
+            margin-top: 20px;
+        }
+
+        a:hover {
+            background-color: #003366;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 14px;
+        }
+    </style>
 </head>
 <body>
-<h1>Raporti Javor</h1>
+<header>
+    Raporti Javor i Kalorive dhe Shpenzimeve
+</header>
+<main>
+    <!-- Kontrollo nëse weeklySummary është i pranishëm -->
+    <div th:if="${weeklySummary != null}">
+        <!-- Kaloritë ditore për javën -->
+        <h2>Kaloritë Ditore:</h2>
+        <ul>
+            <li th:each="calories : ${weeklySummary.totalCaloriesPerDay}">
+                <strong>Data:</strong> <span th:text="${calories.date}"></span><br>
+                <strong>Kaloritë:</strong> <span th:text="${calories.totalCalories}"></span>
+            </li>
+        </ul>
 
-<!-- Kontrollo nëse weeklySummary është i pranishëm -->
-<div th:if="${weeklySummary != null}">
-    <!-- Kaloritë ditore për javën -->
-    <h2>Kaloritë ditore:</h2>
-    <ul>
-        <li th:each="calories : ${weeklySummary.totalCaloriesPerDay}">
-            Data: <span th:text="${calories.date}"></span>,
-            Kaloritë: <span th:text="${calories.totalCalories}"></span>
-        </li>
-    </ul>
+        <!-- Ditët që tejkaluan pragun -->
+        <h2>Ditët që tejkaluan pragun:</h2>
+        <div class="summary">
+            <p th:text="'Numri i ditëve që tejkaluan pragun: ' + ${weeklySummary.daysThresholdExceeded}"></p>
+        </div>
 
-    <!-- Ditët që tejkaluan pragun -->
-    <h2>Ditët që tejkaluan pragun:</h2>
-    <p th:text="'Numri i ditëve: ' + ${weeklySummary.daysThresholdExceeded}"></p>
+        <!-- Shpenzimet totale -->
+        <h2>Shpenzimet Totale për Këtë Javë:</h2>
+        <div class="summary">
+            <p th:text="'Shpenzimet Totale: €' + ${weeklySummary.totalExpenditure}"></p>
+        </div>
+    </div>
 
-    <!-- Shpenzimet totale -->
-    <h2>Shpenzimet totale për këtë javë:</h2>
-    <p th:text="'Shpenzimet totale: €' + ${weeklySummary.totalExpenditure}"></p>
-</div>
+    <!-- Mesazh kur weeklySummary është bosh -->
+    <div th:if="${weeklySummary == null}" class="no-data">
+        <p>Asnjë të dhënë për raportin javor.</p>
+    </div>
 
-<!-- Mesazh kur weeklySummary është bosh -->
-<div th:if="${weeklySummary == null}">
-    <p>Asnjë të dhënë për raportin javor.</p>
-</div>
-
-<!-- Link për kthim -->
-<a href="/food-entry/new">Kthehu te forma kryesore</a>
+    <!-- Link për kthim -->
+    <div style="text-align: center;">
+        <a href="/food-entry/new">Kthehu te Forma Kryesore</a>
+    </div>
+</main>
+<footer>
+    &copy; 2025 Menaxhimi i Ushqimeve. Të gjitha të drejtat e rezervuara.
+</footer>
 </body>
 </html>
-

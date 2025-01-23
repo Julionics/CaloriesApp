@@ -13,6 +13,10 @@ import java.util.List;
 
 @Repository
 public interface FoodEntryRepository extends JpaRepository<FoodEntry, Long> {
+    long countByEntryDateBetween(LocalDateTime start, LocalDateTime end);
+
+    @Query("SELECT AVG(fe.calorieValue) FROM FoodEntry fe WHERE fe.entryDate BETWEEN :start AND :end")
+    double calculateAverageCaloriesForDateRange(@Param("start") LocalDateTime start, @Param("end") LocalDateTime end);
 
     // Merr ditët që tejkalojnë pragun e kalorive
     @Query("SELECT DATE(fe.entryDate) FROM FoodEntry fe " +
@@ -50,8 +54,25 @@ public interface FoodEntryRepository extends JpaRepository<FoodEntry, Long> {
     Double getTotalExpenditureForWeek(@Param("startDate") LocalDate startDate,
                                       @Param("endDate") LocalDate endDate);
 
-    // Merr hyrjet ushqimore sipas intervalit të datave (funksionaliteti i ri)
-    @Query("SELECT fe FROM FoodEntry fe WHERE fe.entryDate BETWEEN :startDate AND :endDate")
-    List<FoodEntry> findFoodEntriesByDateRange(@Param("startDate") LocalDateTime startDate,
-                                               @Param("endDate") LocalDateTime endDate);
+
+    // Merr numrin e hyrjeve të shtuar në 7 ditët e fundit krahasuar me javën paraardhëse
+    @Query("SELECT COUNT(fe) FROM FoodEntry fe WHERE fe.entryDate BETWEEN :startDate AND :endDate")
+    long countEntriesByDateRange(@Param("startDate") LocalDateTime startDate,
+                                 @Param("endDate") LocalDateTime endDate);
+
+    // Mesatarja e kalorive për përdorues për 7 ditët e fundit
+    @Query("SELECT AVG(fe.calorieValue) FROM FoodEntry fe WHERE fe.entryDate BETWEEN :startDate AND :endDate")
+    Double findAverageCaloriesByDateRange(@Param("startDate") LocalDateTime startDate,
+                                          @Param("endDate") LocalDateTime endDate);
+
+    // Merr listën e përdoruesve që tejkalojnë limitin mujor të shpenzimeve
+    @Query("SELECT fe.user.name FROM FoodEntry fe " +
+            "WHERE YEAR(fe.entryDate) = :year AND MONTH(fe.entryDate) = :month " +
+            "GROUP BY fe.user.id " +
+            "HAVING SUM(fe.price) > :limit")
+    List<String> findUsersExceededMonthlyLimit(@Param("year") int year,
+                                               @Param("month") int month,
+                                               @Param("limit") double limit);
+
+
 }

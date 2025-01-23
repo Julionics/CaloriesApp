@@ -1,123 +1,158 @@
 <!DOCTYPE html>
-<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Food Entry Form</title>
+    <title>Food Entry</title>
     <style>
         body {
             font-family: Arial, sans-serif;
-            margin: 20px;
-            background-color: #f4f4f9;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
         }
 
-        h1, h2 {
-            color: #333;
+        header {
+            background-color: #004080;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            font-size: 24px;
         }
 
-        form {
-            margin-bottom: 30px;
+        main {
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #004080;
         }
 
         label {
-            font-weight: bold;
             display: block;
-            margin-bottom: 5px;
+            margin-top: 10px;
+            color: #333;
+            font-weight: bold;
         }
 
         input, button {
-            margin-bottom: 15px;
-            padding: 8px;
             width: 100%;
-            max-width: 300px;
+            padding: 10px;
+            margin-top: 5px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
         }
 
         button {
-            background-color: #4CAF50;
+            background-color: #004080;
             color: white;
-            border: none;
+            font-size: 16px;
+            font-weight: bold;
             cursor: pointer;
         }
 
         button:hover {
-            background-color: #45a049;
+            background-color: #003366;
+        }
+
+        .welcome-message {
+            text-align: center;
+            font-size: 18px;
+            color: #555;
+            margin-bottom: 20px;
+        }
+
+        .section {
+            margin-bottom: 20px;
         }
 
         .warning {
-            color: orange;
-        }
-
-        .error {
             color: red;
+            font-weight: bold;
         }
 
-        .success {
-            color: green;
+        .link {
+            text-decoration: none;
+            color: #004080;
         }
 
-        ul {
-            list-style-type: square;
+        .link:hover {
+            text-decoration: underline;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #aaa;
+            font-size: 14px;
         }
     </style>
 </head>
 <body>
-<h1>Food Entry Form</h1>
+<header>
+    Menaxhimi i Ushqimeve
+</header>
+<main>
+    <div class="container">
+        <h1>Shto një hyrje të re ushqimi</h1>
 
-<!-- Display success, warning, or error messages -->
-<div th:if="${message}">
-    <p class="success" th:text="${message}"></p>
-</div>
-<div th:if="${warning}">
-    <p class="warning" th:text="${warning}"></p>
-</div>
-<div th:if="${error}">
-    <p class="error" th:text="${error}"></p>
-</div>
-<div th:if="${expenditureWarning}">
-    <p class="error" th:text="${expenditureWarning}"></p>
-</div>
+        <div class="welcome-message">
+            Mirë se erdhët! Plotësoni të dhënat për një ushqim të ri më poshtë.
+        </div>
 
-<!-- Form për shtimin e hyrjeve ushqimore -->
-<h2>Shto një Ushqim të Ri</h2>
-<form action="/food-entry/new" method="post">
-    <label for="foodName">Emri i Ushqimit:</label>
-    <input type="text" id="foodName" name="foodName" placeholder="Emri i ushqimit" required><br>
+        <form action="/food-entry/new" method="post">
+            <label for="foodName">Emri i Ushqimit:</label>
+            <input type="text" id="foodName" name="foodName" required>
 
-    <label for="calorieValue">Kalori:</label>
-    <input type="number" id="calorieValue" name="calorieValue" placeholder="Kalori" required><br>
+            <label for="calorieValue">Kalori:</label>
+            <input type="number" id="calorieValue" name="calorieValue" required>
 
-    <label for="price">Çmimi (€):</label>
-    <input type="number" id="price" name="price" step="0.01" placeholder="Çmimi në euro" required><br>
+            <label for="price">Çmimi (€):</label>
+            <input type="number" id="price" name="price" step="0.01" required>
 
-    <button type="submit">Shto Ushqim</button>
-</form>
+            <button type="submit">Shto</button>
+        </form>
 
-<!-- Shfaq listën e ditëve që tejkalojnë pragun -->
-<h2>Ditët që tejkaluan pragun prej <span th:text="${threshold}"></span> kalorish:</h2>
-<ul>
-    <li th:each="day : ${exceededDays}" th:text="${day}"></li>
-</ul>
+        <div class="section">
+            <h2>Filtro Hyrjet Ushqimore</h2>
+            <form action="/food-entry/filter" method="get">
+                <label for="startDate">Data e Fillimit:</label>
+                <input type="date" id="startDate" name="startDate">
 
-<!-- Shfaq shpenzimet mujore -->
-<h2>Shpenzimet Mujore</h2>
-<p>Shpenzimet aktuale: €<span th:text="${monthlyExpenditure}"></span></p>
-<p>Pragu i shpenzimeve mujore: €<span th:text="${monthlyExpenditureThreshold}"></span></p>
+                <label for="endDate">Data e Mbarimit:</label>
+                <input type="date" id="endDate" name="endDate">
 
-<!-- Form për filtrimin e hyrjeve ushqimore -->
-<h2>Filtro Hyrjet Ushqimore</h2>
-<form action="/food-entry/filter" method="get">
-    <label for="startDate">Data e Fillimit:</label>
-    <input type="date" id="startDate" name="startDate" required><br>
+                <button type="submit">Filtro</button>
+            </form>
+        </div>
 
-    <label for="endDate">Data e Mbarimit:</label>
-    <input type="date" id="endDate" name="endDate" required><br>
+        <div class="section">
+            <h2>Ditët që tejkaluan pragun prej 2500.0 kalorish:</h2>
+            <ul>
+                <li>2025-01-17</li>
+                <li>2025-01-18</li>
+            </ul>
+        </div>
 
-    <button type="submit">Filtro</button>
-</form>
-
-<!-- Link për raportin javor -->
-<h2>Raporti Javor</h2>
-<a href="/food-entry/weekly-summary">Shiko Raportin Javor</a>
-
+        <div class="section">
+            <h2>Shpenzimet mujore:</h2>
+            <p>Shpenzimet e muajit aktual: <strong>€37.0</strong></p>
+            <p class="warning">Pragu i shpenzimeve mujore: <strong>€1000.0</strong></p>
+            <a href="/food-entry/weekly-summary" class="link">Shiko Raportin Javor</a>
+        </div>
+    </div>
+</main>
+<footer>
+    &copy; 2025 Menaxhimi i Ushqimeve. Të gjitha të drejtat e rezervuara.
+</footer>
 </body>
 </html>

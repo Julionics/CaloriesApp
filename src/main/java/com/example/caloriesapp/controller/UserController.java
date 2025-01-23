@@ -23,14 +23,21 @@ public class UserController {
 
     // Endpoint për të trajtuar formën e dërguar (POST request)
     @PostMapping("/register")
-    public String registerUser(@RequestParam String name, @RequestParam String email, @RequestParam String password, Model model) {
+    public String registerUser(@RequestParam String name,
+                               @RequestParam String email,
+                               @RequestParam String password,
+                               Model model) {
         try {
-            User user = userService.registerUser(name, email, password);  // Updated to use 'User' (uppercase)
-            model.addAttribute("message", "User registered successfully!");
-            return "redirect:/foodEntryForm.html";
+            // Krijo një përdorues të ri
+            User user = userService.registerUser(name, email, password);
+
+            // Ridrejto në faqen kryesore të FoodEntry pas regjistrimit të suksesshëm
+            return "redirect:/food-entry/new";
         } catch (Exception e) {
+            // Nëse ka një gabim, rikthehu te forma e regjistrimit me një mesazh gabimi
             model.addAttribute("error", e.getMessage());
             return "sign-up";
         }
     }
+
 }

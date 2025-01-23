@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Admin Food Management</title>
+    <link rel="stylesheet" href="/styles.css"> <!-- Nëse ke një skedar CSS -->
+</head>
+<body>
+<h1>Admin Food Management</h1>
+
+<!-- Krijo një hyrje të re -->
+<h2>Create Food Entry</h2>
+<form id="createFoodEntryForm">
+    <label for="foodName">Food Name:</label>
+    <input type="text" id="foodName" name="foodName" required>
+    <label for="calorieValue">Calorie Value:</label>
+    <input type="number" id="calorieValue" name="calorieValue" required>
+    <label for="price">Price:</label>
+    <input type="number" id="price" name="price" required>
+    <button type="button" onclick="createFoodEntry()">Create</button>
+</form>
+
+<!-- Lista e të gjitha hyrjeve -->
+<h2>Food Entries</h2>
+<button type="button" onclick="getAllFoodEntries()">Get All Entries</button>
+<ul id="foodEntriesList"></ul>
+
+<!-- Përditëso një hyrje -->
+<h2>Update Food Entry</h2>
+<form id="updateFoodEntryForm">
+    <label for="entryId">Entry ID:</label>
+    <input type="number" id="entryId" name="entryId" required>
+    <label for="foodNameUpdate">Food Name:</label>
+    <input type="text" id="foodNameUpdate" name="foodNameUpdate" required>
+    <label for="calorieValueUpdate">Calorie Value:</label>
+    <input type="number" id="calorieValueUpdate" name="calorieValueUpdate" required>
+    <label for="priceUpdate">Price:</label>
+    <input type="number" id="priceUpdate" name="priceUpdate" required>
+    <button type="button" onclick="updateFoodEntry()">Update</button>
+</form>
+
+<!-- Fshi një hyrje -->
+<h2>Delete Food Entry</h2>
+<form id="deleteFoodEntryForm">
+    <label for="deleteEntryId">Entry ID:</label>
+    <input type="number" id="deleteEntryId" name="deleteEntryId" required>
+    <button type="button" onclick="deleteFoodEntry()">Delete</button>
+</form>
+
+<script>
+    // Krijo një hyrje të re ushqimore
+    async function createFoodEntry() {
+        const foodName = document.getElementById('foodName').value;
+        const calorieValue = document.getElementById('calorieValue').value;
+        const price = document.getElementById('price').value;
+
+        const response = await fetch('/admin/entries', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ foodName, calorieValue, price })
+        });
+        const message = await response.text();
+        alert(message);
+    }
+
+    // Merr të gjitha hyrjet ushqimore
+    async function getAllFoodEntries() {
+        try {
+            const response = await fetch('/admin/entries', {
+                method: 'GET',
+                headers: { 'Content-Type': 'application/json' },
+            });
+
+            if (!response.ok) {
+                console.error("Failed to fetch entries:", response.statusText);
+                alert("Failed to fetch entries. Please try again.");
+                return;
+            }
+
+            const entries = await response.json();
+            console.log('Fetched entries:', entries);
+
+            const list = document.getElementById('foodEntriesList');
+            list.innerHTML = ''; // Pastron listën
+
+            if (entries.length === 0) {
+                const emptyMessage = document.createElement('li');
+                emptyMessage.innerText = "No entries found.";
+                list.appendChild(emptyMessage);
+                return;
+            }
+
+            entries.forEach(entry => {
+                const listItem = document.createElement('li');
+                listItem.innerText = `ID: ${entry.id}, Name: ${entry.foodName}, Calories: ${entry.calorieValue}, Price: ${entry.price}`;
+                list.appendChild(listItem);
+            });
+        } catch (error) {
+            console.error("An error occurred:", error);
+            alert("An error occurred while fetching food entries.");
+        }
+    }
+
+
+
+
+
+    // Përditëso një hyrje ushqimore
+    async function updateFoodEntry() {
+        const id = document.getElementById('entryId').value;
+        const foodName = document.getElementById('foodNameUpdate').value;
+        const calorieValue = document.getElementById('calorieValueUpdate').value;
+        const price = document.getElementById('priceUpdate').value;
+
+        const response = await fetch(`/admin/entries/${id}`, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ foodName, calorieValue, price })
+        });
+        alert(await response.text());
+    }
+
+    // Fshi një hyrje ushqimore
+    async function deleteFoodEntry() {
+        const id = document.getElementById('deleteEntryId').value;
+
+        const response = await fetch(`/admin/entries/${id}`, {
+            method: 'DELETE'
+        });
+        alert(await response.text());
+    }
+</script>
+</body>
+</html>

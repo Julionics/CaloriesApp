@@ -14,6 +14,10 @@ public class WeeklySummary {
         this.totalExpenditure = totalExpenditure;
     }
 
+    public WeeklySummary() {
+
+    }
+
     public List<DailyCalories> getTotalCaloriesPerDay() {
         return totalCaloriesPerDay;
     }

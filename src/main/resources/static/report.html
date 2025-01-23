@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Report</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 800px;
+            background-color: #ffffff;
+            border-radius: 8px;
+            box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+            overflow: hidden;
+        }
+
+        h1 {
+            background-color: #4CAF50;
+            color: white;
+            margin: 0;
+            padding: 20px;
+            text-align: center;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        th, td {
+            padding: 12px 15px;
+            text-align: left;
+        }
+
+        th {
+            background-color: #f4f4f4;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: #333;
+        }
+
+        td {
+            border-bottom: 1px solid #ddd;
+        }
+
+        tr:nth-child(even) {
+            background-color: #f9f9f9;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .footer {
+            text-align: center;
+            font-size: 14px;
+            color: #777;
+            margin-top: 20px;
+            padding: 10px;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <h1>Admin Report</h1>
+    <table>
+        <thead>
+        <tr>
+            <th>Metric</th>
+            <th>Value</th>
+        </tr>
+        </thead>
+        <tbody id="reportData"></tbody>
+    </table>
+    <div class="footer">Report generated on: <span id="currentDate"></span></div>
+</div>
+
+<script>
+    async function fetchReport() {
+        try {
+            const response = await fetch('http://localhost:8080/admin/report');
+            const data = await response.json();
+            const table = document.getElementById('reportData');
+
+            const metrics = [
+                { metric: "Entries Last 7 Days", value: data.entriesLast7Days },
+                { metric: "Entries Week Before", value: data.entriesWeekBefore },
+                { metric: "Average Calories Last 7 Days", value: data.averageCaloriesLast7Days.toFixed(2) },
+                { metric: "Users Exceeding Monthly Limit", value: data.usersExceedingMonthlyLimit.join(", ") || "None" }
+            ];
+
+            metrics.forEach(row => {
+                const tr = document.createElement('tr');
+                tr.innerHTML = `<td>${row.metric}</td><td>${row.value}</td>`;
+                table.appendChild(tr);
+            });
+        } catch (error) {
+            console.error("Error fetching report:", error);
+        }
+    }
+
+    // Vendos datën aktuale në footer
+    document.getElementById('currentDate').textContent = new Date().toLocaleDateString();
+
+    fetchReport();
+</script>
+</body>
+</html>

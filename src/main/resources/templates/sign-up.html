@@ -4,33 +4,120 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sign Up</title>
-    <link rel="stylesheet" href="/css/styles.css"> <!-- Optional: Link to your CSS file -->
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #004080;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #004080;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #003366;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 16px;
+            margin-bottom: 20px;
+        }
+
+        .message.success {
+            color: green;
+        }
+
+        .message.error {
+            color: red;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
 </head>
 <body>
+<header>
+    Regjistrohu
+</header>
 
-<h1>Sign Up</h1>
+<div class="container">
+    <h1>Krijo një Llogari</h1>
 
-<!-- Display success or error messages -->
-<div th:if="${message != null}">
-    <p style="color: green;" th:text="${message}"></p>
+    <!-- Display success or error messages -->
+    <div th:if="${message != null}" class="message success" th:text="${message}"></div>
+    <div th:if="${error != null}" class="message error" th:text="${error}"></div>
+
+    <!-- Sign-up Form -->
+    <form action="/register" method="post">
+        <label for="name">Emri:</label>
+        <input type="text" id="name" name="name" placeholder="Shkruani emrin tuaj" required>
+
+        <label for="email">Email:</label>
+        <input type="email" id="email" name="email" placeholder="Shkruani email-in tuaj" required>
+
+        <label for="password">Fjalëkalimi:</label>
+        <input type="password" id="password" name="password" placeholder="Krijoni një fjalëkalim" required>
+
+        <button type="submit">Regjistrohu</button>
+    </form>
 </div>
-<div th:if="${error != null}">
-    <p style="color: red;" th:text="${error}"></p>
-</div>
 
-<!-- Sign-up Form -->
-<form action="/register" method="post">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required><br><br>
-
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required><br><br>
-
-    <label for="password">Password:</label>
-    <input type="password" id="password" name="password" required><br><br>
-
-    <button type="submit">Sign Up</button>
-</form>
-
+<footer>
+    &copy; 2025 Menaxhimi i Ushqimeve. Të gjitha të drejtat e rezervuara.
+</footer>
 </body>
 </html>

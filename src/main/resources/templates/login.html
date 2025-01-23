@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f3f3f3;
+            margin: 0;
+            padding: 0;
+        }
+
+        header {
+            background-color: #004080;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            font-size: 24px;
+            font-weight: bold;
+        }
+
+        .container {
+            max-width: 400px;
+            margin: 50px auto;
+            background: white;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        h1 {
+            text-align: center;
+            color: #004080;
+            margin-bottom: 20px;
+        }
+
+        label {
+            display: block;
+            font-size: 16px;
+            margin-bottom: 5px;
+            color: #333;
+        }
+
+        input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 14px;
+        }
+
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #004080;
+            color: white;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background-color: #003366;
+        }
+
+        .message {
+            text-align: center;
+            font-size: 14px;
+            margin-bottom: 10px;
+        }
+
+        .message.error {
+            color: red;
+        }
+
+        .message.success {
+            color: green;
+        }
+
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            font-size: 14px;
+            color: #aaa;
+        }
+    </style>
+</head>
+<body>
+<header>
+    Hyrja në Sistem
+</header>
+
+<div class="container">
+    <h1>Login</h1>
+
+    <!-- Login form -->
+    <form th:action="@{/login}" method="post">
+        <label for="username">Përdoruesi:</label>
+        <input type="text" id="username" name="username" placeholder="Shkruani emrin tuaj" required>
+
+        <label for="password">Fjalëkalimi:</label>
+        <input type="password" id="password" name="password" placeholder="Shkruani fjalëkalimin tuaj" required>
+
+        <button type="submit">Hyr</button>
+    </form>
+
+    <!-- Messages -->
+    <p th:if="${param.error}" class="message error">Emri i përdoruesit ose fjalëkalimi është i pavlefshëm.</p>
+    <p th:if="${param.logout}" class="message success">Jeni çkyçur me sukses.</p>
+</div>
+
+<footer>
+    &copy; 2025 Menaxhimi i Llogarive. Të gjitha të drejtat e rezervuara.
+</footer>
+</body>
+</html>
