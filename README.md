@@ -72,4 +72,5 @@ Dokumenti Pdf per Product Backlog dhe Sprint Backlog:
 [ProductAndSprintBacklog.pdf](..%2F..%2FDownloads%2FProductAndSprintBacklog.pdf)
 Nese doc nuk hapet, mund te gjendet ne projekt te path-i i caktuar si me poshte:
 ![Screenshot 2025-01-23 132038.png](..%2F..%2FPictures%2FScreenshots%2FScreenshot%202025-01-23%20132038.png)
+ 
 CaloriesApp/src/main/Downloads/
