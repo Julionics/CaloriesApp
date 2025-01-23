@@ -66,3 +66,7 @@ Ndersa screnshoots duke klikuar do ju hapen brenda intelliJ.
 ![Screenshot 2025-01-23 at 05.59.29.png](images/Screenshot%202025-01-23%20at%2005.59.29.png)
 ![Screenshot 2025-01-23 at 05.59.36.png](images/Screenshot%202025-01-23%20at%2005.59.36.png)
 ![Screenshot 2025-01-23 at 06.02.38.png](images/Screenshot%202025-01-23%20at%2006.02.38.png)
+
+
+Dokumenti Pdf per Product Backlog dhe Sprint Backlog:
+[ProductAndSprintBacklog.pdf](..%2F..%2FDownloads%2FProductAndSprintBacklog.pdf)
