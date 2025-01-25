@@ -3,6 +3,11 @@
 Ky është një aplikacion për menaxhimin e kalorive dhe shpenzimeve ushqimore.
 Aplikacioni lejon përdoruesit të shtojnë ushqime, të shohin statistika ditore/javore dhe të menaxhojnë shpenzimet.
 
+## Antaret e grupit:
+Juliana Alija
+Sibora Lilo 
+Bora Cara
+
 ## Teknologjitë e përdorura:
 - Java 21
 - Spring Boot 3.4.1
